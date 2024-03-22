@@ -1,6 +1,22 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Home } from './pages/Home';
+import { About } from './pages/About';
+import { SignIn } from './pages/SignIn';
+import { SignUp } from './pages/SignUp';
+import { Projects } from './pages/Projects';
+import { Dashboard } from './pages/Dashboard';
 
-export  const App = () => {
+export const App = () => {
   return (
-    <h1 className='text-3xl text-red-500'>App</h1>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={ <Home /> } />
+        <Route path='/iniciar-sesion' element={ <SignIn /> } />
+        <Route path='/registrarse' element={ <SignUp /> } />
+        <Route path='/panel-control' element={ <Dashboard /> } />
+        <Route path='/proyectos' element={ <Projects /> } />
+        <Route path='/acerca-de' element={ <About /> } />
+      </Routes>
+    </BrowserRouter>
   )
 }
