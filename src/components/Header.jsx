@@ -8,8 +8,6 @@ export const Header = () => {
     <Navbar className='border-b-2'>
       <Link to='' className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white '>
         <span className='px-2 py-1 bg-gradient-to-r from-green-500 via-teal-500 to-blue-500 rounded-lg text-white'>Alexander's</span>
-
-        {/* <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500'>Alexander's</span> */}
         Blog
       </Link>
       <form>
@@ -27,8 +25,8 @@ export const Header = () => {
         <Button className='w-12 h-10 hidden sm:inline' color='gray' pill>
           <FaMoon />
         </Button>
-        <Link>
-          <Button gradientDuoTone='greenToBlue' pill>
+        <Link to='/iniciar-sesion'>
+          <Button gradientDuoTone='greenToBlue' outline>
             Iniciar Sesión
           </Button>
         </Link>
