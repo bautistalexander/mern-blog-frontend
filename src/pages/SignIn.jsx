@@ -1,11 +1,15 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { Label, TextInput, Button, Alert, Spinner } from 'flowbite-react'
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
 
 export const SignIn = () => {
   const [formData, setFormData] = useState({});
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { loading, error: errorMessage } = useSelector(state => state.user);
+  // const [errorMessage, setErrorMessage] = useState(null);
+  // const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
@@ -13,11 +17,13 @@ export const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
-      return setErrorMessage('Por favor, debe llenar todos los campos');
+      return dispatch(signInFailure('Por favor, llenar todos los campos'));
+      // return setErrorMessage('Por favor, debe llenar todos los campos');
     }
     try {
-      setLoading(true);
-      setErrorMessage(null);
+      // setLoading(true);
+      // setErrorMessage(null);
+      dispatch(signInStart());
       const res = await fetch('/api/auth/iniciar-sesion', {
         method: 'POST',
         headers: {
@@ -26,16 +32,19 @@ export const SignIn = () => {
         body: JSON.stringify(formData)
       });
       const data = await res.json();
-      if (data.success === false){
-        return setErrorMessage(data.message);
+      if (data.success === false) {
+        // return setErrorMessage(data.message);
+        dispatch(signInFailure(data.message));
       }
-      setLoading(false);
+      // setLoading(false);
       if (res.ok) {
+        dispatch(signInSuccess(data));
         navigate('/');
       }
     } catch (error) {
-      setErrorMessage(error.message);
-      setLoading(false);
+      dispatch(signInFailure(error.message));
+      // setErrorMessage(error.message);
+      // setLoading(false);
     }
   };
   return (
