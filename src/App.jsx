@@ -6,19 +6,21 @@ import { SignUp } from './pages/SignUp';
 import { Projects } from './pages/Projects';
 import { Dashboard } from './pages/Dashboard';
 import { Header } from './components/Header';
+import { FooterComponent } from './components/Footer';
 
 export const App = () => {
   return (
     <BrowserRouter>
-    <Header />
+      <Header />
       <Routes>
-        <Route path='/' element={ <Home /> } />
-        <Route path='/iniciar-sesion' element={ <SignIn /> } />
-        <Route path='/registrarse' element={ <SignUp /> } />
-        <Route path='/panel-control' element={ <Dashboard /> } />
-        <Route path='/proyectos' element={ <Projects /> } />
-        <Route path='/acerca-de' element={ <About /> } />
+        <Route path='/' element={<Home />} />
+        <Route path='/iniciar-sesion' element={<SignIn />} />
+        <Route path='/registrarse' element={<SignUp />} />
+        <Route path='/panel-control' element={<Dashboard />} />
+        <Route path='/proyectos' element={<Projects />} />
+        <Route path='/acerca-de' element={<About />} />
       </Routes>
+      <FooterComponent />
     </BrowserRouter>
   )
 }
