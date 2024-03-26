@@ -67,7 +67,7 @@ export const SignUp = () => {
               <Label value='Contraseña:' />
               <TextInput type='password' placeholder='Escribe tu contraseña' id='password' onChange={handleChange} />
             </div>
-            <Button type='submit' gradientDuoTone='greenToBlue' disable={loading}>
+            <Button type='submit' gradientDuoTone='greenToBlue' disabled={loading}>
               {
                 loading ? (
                   <>
