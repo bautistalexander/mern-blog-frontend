@@ -18,7 +18,7 @@ export const DashSidebar = () => {
       <Sidebar.Items>
         <Sidebar.ItemGroup>
           <Link to='/panel-control?tab=perfil'>
-            <Sidebar.Item active={tab === 'perfil'} icon={HiUser} label={'User'} labelColor='dark'>
+            <Sidebar.Item active={tab === 'perfil'} icon={HiUser} label={'User'} labelColor='dark' as='div'>
               Perfil
             </Sidebar.Item>
           </Link>
