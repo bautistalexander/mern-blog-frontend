@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { app } from '../firebase';
 import { getDownloadURL, uploadBytesResumable, getStorage, ref } from 'firebase/storage';
-import { updateStart, updateSuccess, updateFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess } from '../redux/user/userSlice';
+import { updateStart, updateSuccess, updateFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess, signoutSuccess } from '../redux/user/userSlice';
 import {HiOutlineExclamationCircle} from 'react-icons/hi';
 
 import { CircularProgressbar } from 'react-circular-progressbar';
@@ -136,7 +136,23 @@ export const DashProfile = () => {
       console.log(error);
       dispatch(deleteUserFailure(error.message));
     }
-  }
+  };
+
+  const handleSignout = async () => {
+    try {
+      const res = await fetch('/api/user/signout', {
+        method: 'POST'
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className='max-w-lg mx-auto p-3 w-full'>
@@ -172,8 +188,8 @@ export const DashProfile = () => {
         </Button>
       </form>
       <div className='text-red-500 flex justify-between mt-5'>
-        <span onClick={() => setShowModal(true)} className='cursor-pointer'>Eliminar cuenta</span>
-        <span className='cursor-pointer'>Cerrar Sesión</span>
+        <span onClick={() => setShowModal(true)} className='cursor-pointer'>Eliminar Cuenta</span>
+        <span onClick={handleSignout} className='cursor-pointer'>Cerrar Sesión</span>
       </div>
       {updateUserSuccess && (
         <Alert color='success' className='mt-5'>
