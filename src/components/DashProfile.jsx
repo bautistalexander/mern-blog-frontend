@@ -1,16 +1,17 @@
 import { Alert, Button, Modal, TextInput } from 'flowbite-react';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { app } from '../firebase';
 import { getDownloadURL, uploadBytesResumable, getStorage, ref } from 'firebase/storage';
 import { updateStart, updateSuccess, updateFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess, signoutSuccess } from '../redux/user/userSlice';
-import {HiOutlineExclamationCircle} from 'react-icons/hi';
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 export const DashProfile = () => {
-  const { currentUser, error } = useSelector((state) => state.user);
+  const { currentUser, error, loading } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -183,9 +184,18 @@ export const DashProfile = () => {
         <TextInput type='text' id='username' placeholder='Escribe tu nombre' defaultValue={currentUser.username} onChange={handleChange} />
         <TextInput type='email' id='email' placeholder='Escribe tu correo electrónico' defaultValue={currentUser.email} onChange={handleChange} />
         <TextInput type='password' id='password' placeholder='Escribe una nueva contraseña' onChange={handleChange} />
-        <Button type='submit' gradientDuoTone='greenToBlue' outline>
-          Guardar cambios
+        <Button type='submit' gradientDuoTone='greenToBlue' disabled={loading || imageFileUploading}>
+          {loading ? 'Cargando...' : 'Guardar Cambios'}
         </Button>
+        {
+          currentUser.isAdmin && (
+            <Link to={'/crear-post'}>
+              <Button type='button' gradientDuoTone='purpleToBlue' className='w-full' outline>
+                Crear un Post
+              </Button>
+            </Link>
+          )
+        }
       </form>
       <div className='text-red-500 flex justify-between mt-5'>
         <span onClick={() => setShowModal(true)} className='cursor-pointer'>Eliminar Cuenta</span>
@@ -210,7 +220,7 @@ export const DashProfile = () => {
         <Modal.Header />
         <Modal.Body>
           <div className='text-center'>
-            <HiOutlineExclamationCircle className='h-14 w-14 text-gray-500 dark:text-gray-200 mb-4 mx-auto'/>
+            <HiOutlineExclamationCircle className='h-14 w-14 text-gray-500 dark:text-gray-200 mb-4 mx-auto' />
             <h3 className='mb-5 text-lg text-gray-500 dark:text-gray-400'>¿Estas seguro que quieres eliminar tu cuenta?</h3>
           </div>
           <div className='flex justify-center gap-4'>
