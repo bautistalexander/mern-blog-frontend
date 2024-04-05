@@ -100,7 +100,7 @@ export const DashPosts = () => {
                         Eliminar
                       </Table.Cell>
                       <Table.Cell>
-                        <Link to={`/update-post/${post._id}`} className='text-teal-500 hover:underline'>
+                        <Link to={`/actualizar-post/${post._id}`} className='text-teal-500 hover:underline'>
                           <span>Editar</span>
                         </Link>
                       </Table.Cell>

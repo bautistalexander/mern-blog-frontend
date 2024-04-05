@@ -1,6 +1,8 @@
 import { Alert, Button, FileInput, Select, TextInput } from 'flowbite-react'
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
+import { useSelector } from 'react-redux';
 
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
@@ -11,13 +13,36 @@ import 'react-quill/dist/quill.snow.css';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
 
-export const CreatePost = () => {
+export const UpdatePost = () => {
   const [file, setFile] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
   const navigate = useNavigate();
+  const { postId } = useParams();
+  const { currentUser } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    try {
+      const fetchPost = async () => {
+        const res = await fetch(`/api/post/getposts?postId=${postId}`);
+        const data = await res.json();
+        if (!res.ok) {
+          console.log(data.message);
+          setPublishError(data.message);
+          return;
+        }
+        if (res.ok) {
+          setPublishError(null);
+          setFormData(data.posts[0]);
+        }
+      };
+      fetchPost();
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, [postId]);
 
   const handleUploadImage = async () => {
     try {
@@ -57,8 +82,8 @@ export const CreatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/post/create', {
-        method: 'POST',
+      const res = await fetch(`/api/post/updatepost/${formData._id}/${currentUser._id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -82,18 +107,20 @@ export const CreatePost = () => {
 
   return (
     <div className='p-3 max-w-3xl mx-auto min-h-screen'>
-      <h1 className='text-center text-3xl my-7 font-semibold'>Crear Post</h1>
+      <h1 className='text-center text-3xl my-7 font-semibold'>Actualizar Post</h1>
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
         <div className='flex flex-col gap-4 sm:flex-row justify-between'>
           <TextInput type='text' placeholder='Escribir título' id='title' className='flex-1' required
             onChange={(e) => setFormData({
               ...formData, title: e.target.value
             })}
+            value={formData.title}
           />
           <Select onChange={
             (e) => setFormData({
               ...formData, category: e.target.value
             })}
+            value={formData.category}
           >
             <option value='uncategory'>Seleccionar una Categoria</option>
             <option value='Javascript'>JavaScript</option>
@@ -131,8 +158,9 @@ export const CreatePost = () => {
               setFormData({ ...formData, content: value });
             }
           }
+          value={formData.content}
         />
-        <Button type='submit' gradientDuoTone='purpleToBlue'>Publicar</Button>
+        <Button type='submit' gradientDuoTone='purpleToBlue'>Guardar Cambios</Button>
         {
           publishError && <Alert className='mt-5' color='failure'>{publishError}</Alert>
         }
