@@ -12,6 +12,7 @@ import { FooterComponent } from './components/Footer';
 import { PrivateRoute } from './components/PrivateRoute';
 import { OnlyAdminPrivateRoute } from './components/OnlyAdminPrivateRoute';
 import { UpdatePost } from './pages/UpdatePost';
+import { PostPage } from './pages/PostPage';
 
 export const App = () => {
   return (
@@ -30,6 +31,7 @@ export const App = () => {
         </Route>
         <Route path='/proyectos' element={<Projects />} />
         <Route path='/acerca-de' element={<About />} />
+        <Route path='/post/:postSlug' element={<PostPage />} />
       </Routes>
       <FooterComponent />
     </BrowserRouter>
