@@ -1,5 +1,5 @@
 import { Sidebar } from 'flowbite-react';
-import { HiArrowSmRight, HiDocumentText, HiOutlineUserGroup, HiUser, HiAnnotation } from 'react-icons/hi';
+import { HiArrowSmRight, HiDocumentText, HiOutlineUserGroup, HiUser, HiAnnotation, HiChartPie } from 'react-icons/hi';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { signoutSuccess } from '../redux/user/userSlice';
@@ -37,8 +37,17 @@ export const DashSidebar = () => {
     <Sidebar className='w-full md:w-56'>
       <Sidebar.Items>
         <Sidebar.ItemGroup className='flex flex-col gap-1'>
+          {
+            currentUser && currentUser.isAdmin && (
+              <Link to='/panel-control?tab=tablero'>
+                <Sidebar.Item active={tab === 'tablero' || !tab} icon={HiChartPie} as='div'>
+                  Panel de Control
+                </Sidebar.Item>
+              </Link>
+            )
+          }
           <Link to='/panel-control?tab=perfil'>
-            <Sidebar.Item active={tab === 'perfil'} icon={HiUser} labelColor={ currentUser.isAdmin ? 'green' : 'blue'} as='div' label={ currentUser.isAdmin ? 'Admin' : 'User'}>
+            <Sidebar.Item active={tab === 'perfil'} icon={HiUser} labelColor={currentUser.isAdmin ? 'green' : 'blue'} as='div' label={currentUser.isAdmin ? 'Admin' : 'User'}>
               Perfil
             </Sidebar.Item>
           </Link>
@@ -54,17 +63,17 @@ export const DashSidebar = () => {
           {
             currentUser.isAdmin && (
               <>
-              <Link to='/panel-control?tab=usuarios'>
-                <Sidebar.Item active={tab === 'usuarios'} icon={HiOutlineUserGroup} as='div'>
-                  Usuarios
-                </Sidebar.Item>
-              </Link>
-              <Link to='/panel-control?tab=comentarios'>
-                <Sidebar.Item active={tab === 'comentarios'} icon={HiAnnotation} as='div'>
-                  Comentarios
-                </Sidebar.Item>
-              </Link>
-              
+                <Link to='/panel-control?tab=usuarios'>
+                  <Sidebar.Item active={tab === 'usuarios'} icon={HiOutlineUserGroup} as='div'>
+                    Usuarios
+                  </Sidebar.Item>
+                </Link>
+                <Link to='/panel-control?tab=comentarios'>
+                  <Sidebar.Item active={tab === 'comentarios'} icon={HiAnnotation} as='div'>
+                    Comentarios
+                  </Sidebar.Item>
+                </Link>
+
               </>
             )
           }

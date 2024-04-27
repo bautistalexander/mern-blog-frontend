@@ -5,6 +5,7 @@ import { DashProfile } from '../components/DashProfile';
 import { DashPosts } from '../components/DashPosts';
 import { DashUsers } from '../components/DashUsers';
 import { DashComments } from '../components/DashComments';
+import { DashboardComp } from '../components/DashboardComp';
 
 export const Dashboard = () => {
   const location = useLocation();
@@ -22,6 +23,7 @@ export const Dashboard = () => {
         {/* Sidebar */}
         <DashSidebar />
       </div>
+      
       {/* Perfil */}
       {tab === 'perfil' && <DashProfile />}
 
@@ -33,6 +35,9 @@ export const Dashboard = () => {
       
       {/* Comments */}
       {tab === 'comentarios' && <DashComments />}
+      
+      {/* Dashboard component */}
+      {tab === 'tablero' && <DashboardComp />}
     </div>
   )
 }
