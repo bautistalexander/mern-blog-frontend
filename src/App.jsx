@@ -14,6 +14,7 @@ import { OnlyAdminPrivateRoute } from './components/OnlyAdminPrivateRoute';
 import { UpdatePost } from './pages/UpdatePost';
 import { PostPage } from './pages/PostPage';
 import ScrollToTop from './components/ScrollToTop';
+import { Search } from './pages/Search';
 
 export const App = () => {
   return (
@@ -24,6 +25,7 @@ export const App = () => {
         <Route path='/' element={<Home />} />
         <Route path='/iniciar-sesion' element={<SignIn />} />
         <Route path='/registrarse' element={<SignUp />} />
+        <Route path='/buscar' element={<Search />} />
         <Route element={<PrivateRoute />}>
           <Route path='/panel-control' element={<Dashboard />} />
         </Route>
